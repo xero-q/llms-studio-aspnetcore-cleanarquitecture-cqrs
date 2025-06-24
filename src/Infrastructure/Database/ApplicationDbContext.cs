@@ -2,6 +2,7 @@
 using Domain.ModelTypes;
 using Domain.Todos;
 using Domain.Users;
+using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -16,6 +17,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<TodoItem> TodoItems { get; set; }
     
     public DbSet<ModelType> ModelTypes { get; set; }
+    
+    public DbSet<Model> Models { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

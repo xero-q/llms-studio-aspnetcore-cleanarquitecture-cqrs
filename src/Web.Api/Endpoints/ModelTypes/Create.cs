@@ -1,4 +1,5 @@
 ﻿using Application.ModelTypes.Create;
+using Application.ModelTypes.Get;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;
@@ -15,14 +16,14 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("model-types", async (Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost(ApiConstants.Create, async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new CreateModelTypeCommand
             {
                 Name = request.Name
             };
 
-            Result<int> result = await sender.Send(command, cancellationToken);
+            Result<ModelTypeResponse> result = await sender.Send(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
