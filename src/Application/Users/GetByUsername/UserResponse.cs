@@ -1,4 +1,4 @@
-﻿namespace Application.Users.GetByEmail;
+﻿namespace Application.Users.GetByUsername;
 
 public sealed record UserResponse
 {

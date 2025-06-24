@@ -5,27 +5,27 @@ using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
-namespace Application.Users.GetByEmail;
+namespace Application.Users.GetByUsername;
 
-internal sealed class GetUserByEmailQueryHandler(IApplicationDbContext context, IUserContext userContext)
-    : IQueryHandler<GetUserByEmailQuery, UserResponse>
+internal sealed class GetUserByUsernameQueryHandler(IApplicationDbContext context, IUserContext userContext)
+    : IQueryHandler<GetUserByUsernameQuery, UserResponse>
 {
-    public async Task<Result<UserResponse>> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
+    public async Task<Result<UserResponse>> Handle(GetUserByUsernameQuery query, CancellationToken cancellationToken)
     {
         UserResponse? user = await context.Users
-            .Where(u => u.Email == query.Email)
+            .Where(u => u.Username == query.Username)
             .Select(u => new UserResponse
             {
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                Email = u.Email
+                Email = u.Username
             })
             .SingleOrDefaultAsync(cancellationToken);
 
         if (user is null)
         {
-            return Result.Failure<UserResponse>(UserErrors.NotFoundByEmail);
+            return Result.Failure<UserResponse>(UserErrors.NotFoundByUsername);
         }
 
         if (user.Id != userContext.UserId)

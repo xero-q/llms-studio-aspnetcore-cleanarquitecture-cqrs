@@ -48,6 +48,7 @@ app.UseAuthorization();
 
 // REMARK: If you want to use Controllers, you'll need this.
 app.MapControllers();
+app.UseCors("AllowFrontend");
 
 await app.RunAsync();
 
