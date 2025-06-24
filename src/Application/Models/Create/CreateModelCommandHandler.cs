@@ -23,12 +23,20 @@ internal sealed class CreateModelCommandHandler(
             return Result.Failure<int>(ModelTypeErrors.NotFound(command.ModelTypeId));
         }
 
-        bool hasModel = context.Models.AsEnumerable()
-            .Any(m => m.Identifier.Equals(command.Identifier, StringComparison.OrdinalIgnoreCase));
+        Model? modelFound = null;
+        
+        modelFound = await context.Models.SingleOrDefaultAsync(m => EF.Functions.ILike(m.Identifier,command.Identifier), cancellationToken);
 
-        if (hasModel)
+        if (modelFound != null)
         {
-            return Result.Failure<int>(ModelErrors.IdentifierAlreadyExists(command.Identifier)); 
+            return Result.Failure<int>(ModelErrors.IdentifierAlreadyExists(modelFound.Identifier)); 
+        }
+        
+        modelFound = await context.Models.SingleOrDefaultAsync(m => EF.Functions.ILike(m.EnvironmentVariable,command.EnvironmentVariable),cancellationToken);
+
+        if (modelFound != null)
+        {
+            return Result.Failure<int>(ModelErrors.EnvironmentVariableAlreadyExists(modelFound.EnvironmentVariable)); 
         }
         
         var modelItem = new Model

@@ -23,6 +23,8 @@ internal sealed class ModelConfiguration : IEntityTypeConfiguration<Model>
         
         builder.HasIndex(m => m.Identifier).IsUnique();
         
+        builder.HasIndex(m => m.EnvironmentVariable).IsUnique();
+        
         builder.HasOne(m=>m.Provider)
             .WithMany(mt=>mt.Models)
             .HasForeignKey(m=>m.ModelTypeId)
