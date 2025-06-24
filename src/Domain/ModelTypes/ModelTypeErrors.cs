@@ -8,4 +8,8 @@ public static class ModelTypeErrors
         "ModelTypes.NotFound",
         $"The ModelType with the Id = '{modelTypeId}' was not found");
     
+    public static Error ModelTypeAlreadyExists(string modelTypeName) => Error.Validation(
+        "ModelTypes.NameAlreadyExists",
+        $"The ModelType with Name = '{modelTypeName}' already exists");
+    
 }

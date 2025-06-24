@@ -11,5 +11,6 @@ internal sealed class ModelTypeConfiguration : IEntityTypeConfiguration<ModelTyp
         builder.HasKey(m => m.Id);
 
         builder.Property(m => m.Name).IsRequired();
+        builder.HasIndex(m => m.Name).IsUnique();
     }
 }

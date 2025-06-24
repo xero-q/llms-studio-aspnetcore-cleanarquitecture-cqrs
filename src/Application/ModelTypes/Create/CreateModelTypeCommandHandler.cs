@@ -1,8 +1,8 @@
-﻿using Application.Abstractions.Authentication;
-using Application.Abstractions.Data;
+﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
 using Application.ModelTypes.Get;
 using Domain.ModelTypes;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.ModelTypes.Create;
@@ -13,7 +13,14 @@ internal sealed class CreateModelTypeCommandHandler(
 {
     public async Task<Result<ModelTypeResponse>> Handle(CreateModelTypeCommand command, CancellationToken cancellationToken)
     {
-       var modelTypeItem = new ModelType
+        ModelType? modelTypeFound = await context.ModelTypes.SingleOrDefaultAsync(m => EF.Functions.ILike(m.Name,command.Name), cancellationToken);
+
+        if (modelTypeFound != null)
+        {
+            return Result.Failure<ModelTypeResponse>(ModelTypeErrors.ModelTypeAlreadyExists(modelTypeFound.Name)); 
+        }
+        
+        var modelTypeItem = new ModelType
         {
             Name = command.Name
         };
