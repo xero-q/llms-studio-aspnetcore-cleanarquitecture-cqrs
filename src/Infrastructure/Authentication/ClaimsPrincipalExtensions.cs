@@ -4,11 +4,11 @@ namespace Infrastructure.Authentication;
 
 internal static class ClaimsPrincipalExtensions
 {
-    public static Guid GetUserId(this ClaimsPrincipal? principal)
+    public static int GetUserId(this ClaimsPrincipal? principal)
     {
         string? userId = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        return Guid.TryParse(userId, out Guid parsedUserId) ?
+        return int.TryParse(userId, out int parsedUserId) ?
             parsedUserId :
             throw new ApplicationException("User id is unavailable");
     }

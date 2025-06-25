@@ -10,7 +10,7 @@ internal sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("todos", async (Guid userId, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet("todos", async (int userId, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new GetTodosQuery(userId);
 

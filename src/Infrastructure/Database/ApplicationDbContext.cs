@@ -3,6 +3,7 @@ using Domain.ModelTypes;
 using Domain.Todos;
 using Domain.Users;
 using Domain.Models;
+using Thread = Domain.Threads.Thread;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -19,6 +20,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<ModelType> ModelTypes { get; set; }
     
     public DbSet<Model> Models { get; set; }
+    
+    public DbSet<Thread> Threads { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

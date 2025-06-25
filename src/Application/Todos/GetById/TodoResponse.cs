@@ -3,7 +3,7 @@
 public sealed class TodoResponse
 {
     public Guid Id { get; set; }
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public string Description { get; set; }
     public DateTime? DueDate { get; set; }
     public List<string> Labels { get; set; }

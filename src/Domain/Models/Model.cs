@@ -1,5 +1,6 @@
 using Domain.ModelTypes;
 using SharedKernel;
+using Thread = Domain.Threads.Thread;
 
 namespace Domain.Models;
 
@@ -19,5 +20,5 @@ public class Model:Entity
 
     public ModelType Provider { get; set; } = null!;
     
-    // public List<Thread> Threads { get; set; } = new();
+    public List<Thread> Threads { get; set; } = new();
 }

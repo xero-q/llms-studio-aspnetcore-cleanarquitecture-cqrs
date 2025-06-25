@@ -20,7 +20,7 @@ internal sealed class Register : IEndpoint
                 request.LastName,
                 request.Password);
 
-            Result<Guid> result = await sender.Send(command, cancellationToken);
+            Result<int> result = await sender.Send(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250624191811_UpdateUser")]
-    partial class UpdateUser
+    [Migration("20250625014742_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,45 @@ namespace Infrastructure.Database.Migrations
                     b.ToTable("models", "public");
                 });
 
+            modelBuilder.Entity("Domain.Threads.Thread", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("ModelId")
+                        .HasColumnType("integer")
+                        .HasColumnName("model_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("title");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_threads");
+
+                    b.HasIndex("ModelId")
+                        .HasDatabaseName("ix_threads_model_id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_threads_user_id");
+
+                    b.ToTable("threads", "public");
+                });
+
             modelBuilder.Entity("Domain.Todos.TodoItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -139,8 +178,8 @@ namespace Infrastructure.Database.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("priority");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -154,10 +193,12 @@ namespace Infrastructure.Database.Migrations
 
             modelBuilder.Entity("Domain.Users.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -201,6 +242,27 @@ namespace Infrastructure.Database.Migrations
                     b.Navigation("Provider");
                 });
 
+            modelBuilder.Entity("Domain.Threads.Thread", b =>
+                {
+                    b.HasOne("Domain.Models.Model", "Model")
+                        .WithMany("Threads")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_threads_models_model_id");
+
+                    b.HasOne("Domain.Users.User", "User")
+                        .WithMany("Threads")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_threads_users_user_id");
+
+                    b.Navigation("Model");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Todos.TodoItem", b =>
                 {
                     b.HasOne("Domain.Users.User", null)
@@ -214,6 +276,16 @@ namespace Infrastructure.Database.Migrations
             modelBuilder.Entity("Domain.ModelTypes.ModelType", b =>
                 {
                     b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("Domain.Models.Model", b =>
+                {
+                    b.Navigation("Threads");
+                });
+
+            modelBuilder.Entity("Domain.Users.User", b =>
+                {
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

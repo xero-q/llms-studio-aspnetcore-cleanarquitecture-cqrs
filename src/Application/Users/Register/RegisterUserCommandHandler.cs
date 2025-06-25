@@ -8,18 +8,17 @@ using SharedKernel;
 namespace Application.Users.Register;
 
 internal sealed class RegisterUserCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher)
-    : ICommandHandler<RegisterUserCommand, Guid>
+    : ICommandHandler<RegisterUserCommand, int>
 {
-    public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<Result<int>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         if (await context.Users.AnyAsync(u => u.Username == command.Username, cancellationToken))
         {
-            return Result.Failure<Guid>(UserErrors.EmailNotUnique);
+            return Result.Failure<int>(UserErrors.EmailNotUnique);
         }
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
             Username = command.Username,
             FirstName = command.FirstName,
             LastName = command.LastName,
