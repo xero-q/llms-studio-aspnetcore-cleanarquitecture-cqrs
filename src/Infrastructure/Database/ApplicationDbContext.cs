@@ -3,6 +3,7 @@ using Domain.ModelTypes;
 using Domain.Todos;
 using Domain.Users;
 using Domain.Models;
+using Domain.Prompts;
 using Thread = Domain.Threads.Thread;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<Model> Models { get; set; }
     
     public DbSet<Thread> Threads { get; set; }
+    
+    public DbSet<Prompt> Prompts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

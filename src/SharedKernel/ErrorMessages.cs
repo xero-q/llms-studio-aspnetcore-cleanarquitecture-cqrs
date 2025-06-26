@@ -7,4 +7,6 @@ public static class ErrorMessages
         return $"'{propertyName}' cannot be empty";
     } 
     public const string TemperatureInvalidValue = "The temperature must be between 0.0 and 1.0.";
+
+    public const string ErrorRequestLLM = "Error while querying LLM";
 }

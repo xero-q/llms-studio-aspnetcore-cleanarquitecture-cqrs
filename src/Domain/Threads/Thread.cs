@@ -1,4 +1,5 @@
 using Domain.Models;
+using Domain.Prompts;
 using Domain.Users;
 using SharedKernel;
 
@@ -20,5 +21,5 @@ public class Thread:Entity
 
     public User User { get; set; } = null!;
     
-    // public List<Prompt> Prompts { get; set; } = new();
+    public List<Prompt> Prompts { get; set; } = new();
 }

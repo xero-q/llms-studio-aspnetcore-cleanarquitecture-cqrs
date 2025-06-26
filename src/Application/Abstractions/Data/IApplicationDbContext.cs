@@ -2,6 +2,7 @@
 using Domain.Todos;
 using Domain.Users;
 using Domain.Models;
+using Domain.Prompts;
 using Microsoft.EntityFrameworkCore;
 
 using Thread = Domain.Threads.Thread;
@@ -18,6 +19,8 @@ public interface IApplicationDbContext
     DbSet<Model> Models { get; }
     
     DbSet<Thread> Threads { get; }
+    
+    DbSet<Prompt> Prompts { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
