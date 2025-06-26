@@ -1,5 +1,4 @@
 ﻿using Application.Threads.Get;
-using Application.Todos.Get;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;

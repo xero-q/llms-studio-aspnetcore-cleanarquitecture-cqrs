@@ -1,5 +1,4 @@
 ﻿using Domain.ModelTypes;
-using Domain.Todos;
 using Domain.Users;
 using Domain.Models;
 using Domain.Prompts;
@@ -12,7 +11,6 @@ namespace Application.Abstractions.Data;
 public interface IApplicationDbContext
 {
     DbSet<User> Users { get; }
-    DbSet<TodoItem> TodoItems { get; }
     
     DbSet<ModelType> ModelTypes { get; }
     
