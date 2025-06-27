@@ -6,4 +6,5 @@ public static class ApiConstants
    public const string Create = $"{Web.Api.Endpoints.Models.ApiConstants.Create}/{{id:int}}/threads";
    public const string Get = Base;
    public const string GetById = $"{Base}/{{id:int}}";
+   public const string Delete = $"{Base}/{{id:int}}";
 }
