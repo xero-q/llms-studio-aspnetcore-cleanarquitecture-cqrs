@@ -29,6 +29,7 @@ internal sealed class RefreshUserCommandHandler(
         AuthToken authToken = tokenProvider.Create(refreshToken.User);
 
         context.RefreshTokens.Remove(refreshToken);
+        await context.SaveChangesAsync(cancellationToken);
         
         //Save refresh token in the DB
         var newRefreshToken = new RefreshToken
