@@ -13,7 +13,7 @@ internal sealed class CreateModelTypeCommandHandler(
 {
     public async Task<Result<ModelTypeResponse>> Handle(CreateModelTypeCommand command, CancellationToken cancellationToken)
     {
-        ModelType? modelTypeFound = await context.ModelTypes.SingleOrDefaultAsync(m => EF.Functions.ILike(m.Name,command.Name), cancellationToken);
+        ModelType? modelTypeFound = await context.ModelTypes.AsNoTracking().SingleOrDefaultAsync(m => EF.Functions.ILike(m.Name,command.Name), cancellationToken);
 
         if (modelTypeFound != null)
         {

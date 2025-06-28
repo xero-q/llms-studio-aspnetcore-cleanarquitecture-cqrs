@@ -21,6 +21,7 @@ internal sealed class GetUserByUsernameQueryHandler(IApplicationDbContext contex
                 LastName = u.LastName,
                 Email = u.Username
             })
+            .AsNoTracking()
             .SingleOrDefaultAsync(cancellationToken);
 
         if (user is null)

@@ -14,6 +14,7 @@ internal sealed class CreateModelCommandHandler(
     public async Task<Result<int>> Handle(CreateModelCommand command, CancellationToken cancellationToken)
     {
         ModelType? modelType = await context.ModelTypes
+            .AsNoTracking()
             .Where(mt =>mt.Id == command.ModelTypeId)
             .SingleOrDefaultAsync(cancellationToken);
         

@@ -17,6 +17,7 @@ internal sealed class RefreshUserCommandHandler(
     {
         RefreshToken? refreshToken = await context.RefreshTokens
             .Include(rt => rt.User)
+            .AsNoTracking()
             .FirstOrDefaultAsync(rt => rt.Token == command.token, cancellationToken);
 
         if (refreshToken is null)

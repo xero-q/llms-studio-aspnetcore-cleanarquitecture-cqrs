@@ -47,7 +47,7 @@ public class ModelMistralAI : ModelAI
             
             messages.Add(new
             {
-                role = "system",
+                role = "assistant",
                 content = promptRecord.Response
             });
         }

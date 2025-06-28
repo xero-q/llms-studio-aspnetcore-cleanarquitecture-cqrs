@@ -18,7 +18,8 @@ internal sealed class CreateThreadCommandHandler(
     public async Task<Result<int>> Handle(CreateThreadCommand command, CancellationToken cancellationToken)
     {
        Model? model = await context.Models
-            .Where(m =>m.Id == command.ModelId)
+           .AsNoTracking() 
+           .Where(m =>m.Id == command.ModelId)
             .SingleOrDefaultAsync(cancellationToken);
         
 

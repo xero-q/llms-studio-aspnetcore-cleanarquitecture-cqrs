@@ -11,6 +11,7 @@ internal sealed class GetModelsQueryHandler(IApplicationDbContext context)
     public async Task<Result<List<ModelResponse>>> Handle(GetModelsQuery query, CancellationToken cancellationToken)
     {
         List<ModelResponse> models = await context.Models
+            .AsNoTracking()
             .Include(m=>m.Provider)
             .Select(model => new ModelResponse
             {

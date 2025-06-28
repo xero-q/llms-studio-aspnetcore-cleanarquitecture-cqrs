@@ -11,6 +11,7 @@ internal sealed class GetPromptsQueryHandler(IApplicationDbContext context)
     public async Task<Result<List<PromptResponse>>> Handle(GetPromptsQuery query, CancellationToken cancellationToken)
     {
         List<PromptResponse> prompts = await context.Prompts
+            .AsNoTracking()
             .Where(p => p.ThreadId == query.ThreadId)
             .OrderBy(p => p.CreatedAt)
             .Select(p=>new PromptResponse

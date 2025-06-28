@@ -14,6 +14,7 @@ internal sealed class DeleteThreadCommandHandler(IApplicationDbContext context)
     public async Task<Result> Handle(DeleteThreadCommand command, CancellationToken cancellationToken)
     {
         Thread? thread = await context.Threads
+            .AsNoTracking()
             .SingleOrDefaultAsync(t => t.Id == command.ThreadId, cancellationToken);
 
         if (thread is null)

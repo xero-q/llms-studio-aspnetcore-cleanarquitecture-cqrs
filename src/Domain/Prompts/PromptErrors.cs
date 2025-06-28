@@ -9,7 +9,7 @@ public static class PromptErrors
         "Prompts.ProviderNotHandled",
         $"The system cannot process this Provider = '{provider}'");
     
-    public static Error CouldNotGetResponse() => Error.Failure(
+    public static Error CouldNotGetResponse() => Error.Conflict(
         "Prompts.CouldNotGetLLMResponse",
         $"The system could not get the response from the LLM");
     

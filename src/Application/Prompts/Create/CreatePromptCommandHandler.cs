@@ -20,7 +20,7 @@ internal sealed class CreatePromptCommandHandler(
 {
     public async Task<Result<PromptResponse>> Handle(CreatePromptCommand command, CancellationToken cancellationToken)
     {
-        Thread? thread = await context.Threads.Include(t=>t.Prompts).Include(t=>t.Model).ThenInclude(m=>m.Provider).FirstOrDefaultAsync(t=>t.Id == command.ThreadId, cancellationToken);
+        Thread? thread = await context.Threads.AsNoTracking().Include(t=>t.Prompts).Include(t=>t.Model).ThenInclude(m=>m.Provider).FirstOrDefaultAsync(t=>t.Id == command.ThreadId, cancellationToken);
 
         if (thread == null)
         {
@@ -45,32 +45,39 @@ internal sealed class CreatePromptCommandHandler(
         IModelAI modelAI = modelAIFactory.CreateModelAI(thread, config);
 
 
-        string? response = await modelAI.SendPrompt(command.PromptText);
+        try
+        {
+            string? response = await modelAI.SendPrompt(command.PromptText);
 
-        if (response == null)
+            if (response is null)
+            {
+                return Result.Failure<PromptResponse>(PromptErrors.CouldNotGetResponse());
+            }
+            
+            var newPrompt = new Prompt
+            {
+                PromptText = command.PromptText,
+                Response = response,
+                ThreadId = command.ThreadId,
+                CreatedAt = dateTimeProvider.UtcNow
+            };
+
+            context.Prompts.Add(newPrompt);
+
+            await context.SaveChangesAsync(cancellationToken);
+
+            return new PromptResponse
+            {
+                Id = newPrompt.Id,
+                Prompt = newPrompt.PromptText,
+                Response = newPrompt.Response,
+                CreatedAt = newPrompt.CreatedAt,
+                ThreadId = newPrompt.ThreadId
+            };
+        }
+        catch
         {
             return Result.Failure<PromptResponse>(PromptErrors.CouldNotGetResponse());
         }
-
-        var newPrompt = new Prompt
-        {
-            PromptText = command.PromptText,
-            Response = response,
-            ThreadId = command.ThreadId,
-            CreatedAt = dateTimeProvider.UtcNow
-        };
-
-        context.Prompts.Add(newPrompt);
-
-        await context.SaveChangesAsync(cancellationToken);
-
-        return new PromptResponse
-        {
-            Id = newPrompt.Id,
-            Prompt = newPrompt.PromptText,
-            Response = newPrompt.Response,
-            CreatedAt = newPrompt.CreatedAt,
-            ThreadId = newPrompt.ThreadId
-        };
     }
 }
