@@ -27,7 +27,16 @@ internal sealed class CreateThreadCommandHandler(
         {
             return Result.Failure<int>(ThreadErrors.NotFound(command.ModelId));
         }
+        
+        //Verify not same thread title for the same user
+        bool threadFound = await context.Threads
+            .AnyAsync(t=>EF.Functions.ILike(t.Title, command.Title) && t.UserId == userContext.UserId, cancellationToken);
 
+        if (threadFound)
+        {
+            return Result.Failure<int>(ThreadErrors.TitleAlreadyExistsSameUser(command.Title)); 
+        }
+        
         var thread = new Thread
         {
             Title = command.Title,
