@@ -15,12 +15,12 @@ internal sealed class Create : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost(ApiConstants.Create, async (int id, Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost(ApiConstants.Create, async (int modelId, Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new CreateThreadCommand
             {
                 Title = request.Title,
-                ModelId = id
+                ModelId = modelId
             };
 
             Result<int> result = await sender.Send(command, cancellationToken);

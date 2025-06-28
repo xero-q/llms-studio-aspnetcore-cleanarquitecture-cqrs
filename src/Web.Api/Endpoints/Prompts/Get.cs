@@ -11,9 +11,9 @@ internal sealed class Get : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiConstants.Get, async (int id, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet(ApiConstants.Get, async (int threadId, ISender sender, CancellationToken cancellationToken) =>
             {
-                var command = new GetPromptsQuery(id);
+                var command = new GetPromptsQuery(threadId);
 
                 Result<List<PromptResponse>> result = await sender.Send(command, cancellationToken);
 

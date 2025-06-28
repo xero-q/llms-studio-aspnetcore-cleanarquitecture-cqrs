@@ -16,12 +16,12 @@ internal sealed class Create:IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost(ApiConstants.Create, async (int id, Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost(ApiConstants.Create, async (int threadId, Request request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new CreatePromptCommand
                 {
                     PromptText = request.Prompt,
-                    ThreadId = id
+                    ThreadId = threadId
                 };
 
                 Result<PromptResponse> result = await sender.Send(command, cancellationToken);

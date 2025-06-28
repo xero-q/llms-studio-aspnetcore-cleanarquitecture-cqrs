@@ -10,9 +10,9 @@ internal sealed class Delete : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete(ApiConstants.Delete, async (int id, ISender sender, CancellationToken cancellationToken) =>
+        app.MapDelete(ApiConstants.Delete, async (int threadId, ISender sender, CancellationToken cancellationToken) =>
         {
-            var command = new DeleteThreadCommand(id);
+            var command = new DeleteThreadCommand(threadId);
 
             Result result = await sender.Send(command, cancellationToken);
 

@@ -10,9 +10,9 @@ internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiConstants.GetById, async (int id, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet(ApiConstants.GetById, async (int modelId, ISender sender, CancellationToken cancellationToken) =>
         {
-            var command = new GetModelByIdQuery(id);
+            var command = new GetModelByIdQuery(modelId);
 
             Result<ModelResponse> result = await sender.Send(command, cancellationToken);
 
