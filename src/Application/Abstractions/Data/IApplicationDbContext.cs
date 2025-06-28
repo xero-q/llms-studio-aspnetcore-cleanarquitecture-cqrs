@@ -2,6 +2,7 @@
 using Domain.Users;
 using Domain.Models;
 using Domain.Prompts;
+using Domain.RefreshTokens;
 using Microsoft.EntityFrameworkCore;
 
 using Thread = Domain.Threads.Thread;
@@ -19,6 +20,8 @@ public interface IApplicationDbContext
     DbSet<Thread> Threads { get; }
     
     DbSet<Prompt> Prompts { get; }
+    
+    DbSet<RefreshToken> RefreshTokens { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

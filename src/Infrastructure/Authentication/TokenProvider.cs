@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Application.Abstractions.Authentication;
+using Application.Users.Login;
 using Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -11,7 +13,7 @@ namespace Infrastructure.Authentication;
 
 internal sealed class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
-    public string Create(User user)
+    public AuthToken Create(User user)
     {
         string secretKey = configuration["Jwt:Secret"]!;
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
@@ -33,8 +35,22 @@ internal sealed class TokenProvider(IConfiguration configuration) : ITokenProvid
 
         var handler = new JsonWebTokenHandler();
 
-        string token = handler.CreateToken(tokenDescriptor);
+        string accessToken = handler.CreateToken(tokenDescriptor);
+        
+        string refreshToken = GenerateRefreshToken();
 
-        return token;
+        return new AuthToken
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+        };
+    }
+    
+    private static string GenerateRefreshToken()
+    {
+        byte[] randomBytes = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
     }
 }

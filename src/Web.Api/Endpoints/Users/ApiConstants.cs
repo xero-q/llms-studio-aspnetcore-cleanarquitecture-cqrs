@@ -6,4 +6,5 @@ public static class ApiConstants
     
     public const string Signup = $"{Base}/signup";
     public const string Login = $"{Base}/login";
+    public const string Refresh = $"{Base}/refresh";
 }

@@ -1,8 +1,9 @@
-﻿using Domain.Users;
+﻿using Application.Users.Login;
+using Domain.Users;
 
 namespace Application.Abstractions.Authentication;
 
 public interface ITokenProvider
 {
-    string Create(User user);
+    AuthToken Create(User user);
 }

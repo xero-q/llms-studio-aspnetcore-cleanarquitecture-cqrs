@@ -15,6 +15,10 @@ public static class UserErrors
     public static readonly Error NotFoundByUsername = Error.NotFound(
         "Users.NotFoundByUsername",
         "The user with the specified username was not found");
+    
+    public static readonly Error NotFoundByRefreshToken = Error.Failure(
+        "Users.NotFoundByRefreshToken",
+        "The refresh token provided was not found");
    
     public static readonly Error InvalidPassword = Error.Validation(
         "Users.InvalidPassword",

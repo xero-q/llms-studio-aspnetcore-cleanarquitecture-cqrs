@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions.Authentication;
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Domain.RefreshTokens;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
@@ -30,11 +31,23 @@ internal sealed class LoginUserCommandHandler(
             return Result.Failure<UserTokenResponse>(UserErrors.InvalidPassword);
         }
 
-        string token = tokenProvider.Create(user);
+        AuthToken token = tokenProvider.Create(user);
+        
+        //Save refresh token in the DB
+        var refreshToken = new RefreshToken
+        {
+            Token = token.RefreshToken,
+            UserId = user.Id
+        };
+        
+        context.RefreshTokens.Add(refreshToken);
+
+        await context.SaveChangesAsync(cancellationToken);
 
         return new UserTokenResponse
         {
-            Access = token
+            Access = token.AccessToken,
+            Refresh = token.RefreshToken,
         };
     }
 }
