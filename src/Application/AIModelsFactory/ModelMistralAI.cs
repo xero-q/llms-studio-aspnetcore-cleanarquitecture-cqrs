@@ -9,15 +9,11 @@ using Thread = Domain.Threads.Thread;
 
 namespace Application.AIModelsFactory;
 
-public class ModelMistralAI : ModelAI
+public class ModelMistralAI(Thread thread, IConfiguration config) : ModelAI(thread, config)
 {
     
-    private readonly string? Url;
-    
-    public ModelMistralAI(Thread thread, IConfiguration config) : base(thread, config)
-    {
-        Url = Config["Models:Mistral:Url"];
-    }
+    private readonly string? Url = config["Models:Mistral:Url"];
+
     public override async Task<string?> SendPrompt(string prompt)
     {
         Env.Load();
@@ -85,7 +81,7 @@ public class ModelMistralAI : ModelAI
             var responseJson = JObject.Parse(responseBody);
 
 
-            string? text = (string)(responseJson?["choices"]?[0]?["message"]?["content"]);
+            string? text = (string)responseJson["choices"]?[0]?["message"]?["content"];
 
             return text;
         }

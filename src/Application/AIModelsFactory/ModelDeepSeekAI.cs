@@ -7,14 +7,9 @@ using Thread = Domain.Threads.Thread;
 
 namespace Application.AIModelsFactory;
 
-public class ModelDeepSeekAI : ModelAI
+public class ModelDeepSeekAI(Thread thread, IConfiguration config) : ModelAI(thread, config)
 {
-    private readonly string? Url;
-
-    public ModelDeepSeekAI(Thread thread, IConfiguration config) : base(thread, config)
-    {
-        Url = config["Models:DeepSeekAI:Url"];
-    }
+    private readonly string? Url = config["Models:DeepSeekAI:Url"];
 
     public override async Task<string?> SendPrompt(string prompt)
     {
