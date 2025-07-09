@@ -87,7 +87,7 @@ public class ModelGeminiAI(Thread thread, IConfiguration config) : ModelAI(threa
             var responseJson = JObject.Parse(responseBody);
 
 
-            string? text = (string)(responseJson?["candidates"]?[0]?["content"]?["parts"]?[0]?["text"]);
+            string? text = (string)responseJson["candidates"]?[0]?["content"]?["parts"]?[0]?["text"];
 
             return text;
         }

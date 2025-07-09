@@ -53,7 +53,7 @@ public class ModelDeepSeekAI(Thread thread, IConfiguration config) : ModelAI(thr
             var responseJson = JObject.Parse(responseBody);
 
 
-            string? text = (string)(responseJson?["choices"]?[0]?["message"]?["content"]);
+            string? text = (string)responseJson?["choices"]?[0]?["message"]?["content"];
 
             return text;
         }

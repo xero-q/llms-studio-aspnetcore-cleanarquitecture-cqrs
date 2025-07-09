@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Application.Models.GetById;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 

@@ -1,4 +1,4 @@
-﻿using Application.Models.Get;
+﻿using Application.Models.GetById;
 using MediatR;
 using SharedKernel;
 using Web.Api.Extensions;
