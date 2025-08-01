@@ -6,16 +6,16 @@ namespace Domain.Users;
 
 public sealed class User : Entity
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
     
-    public string Username { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string PasswordHash { get; set; }
+    public string Username { get; init; }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+    public string PasswordHash { get; init; }
     
-    public List<Thread> Threads { get; set; } = new();
+    public List<Thread> Threads { get; init; } = [];
     
-    public List<RefreshToken> RefreshTokens { get; set; } = new();
+    public List<RefreshToken> RefreshTokens { get; init; } = [];
     
     
 }

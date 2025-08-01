@@ -4,13 +4,11 @@ namespace Application.AIModelsFactory;
 
 public abstract class ModelAI:IModelAI
 {
-    protected Thread Thread { get; init; }
-    protected IConfiguration Config { get; init; }
+    protected Thread Thread { get; }
     
     protected ModelAI(Thread thread, IConfiguration config)
     {
        Thread = thread; 
-       Config = config;
     }
     public abstract Task<string?> SendPrompt(string prompt);
 }
