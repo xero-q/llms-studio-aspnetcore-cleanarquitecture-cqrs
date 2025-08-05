@@ -9,7 +9,7 @@ using SharedKernel;
 
 namespace Application.AIModelsFactory;
 
-public class ModelGeminiAI(Thread thread, IConfiguration config) : ModelAI(thread, config)
+public class ModelGeminiAI(Thread thread) : ModelAI(thread)
 {
     public override async Task<string?> SendPrompt(string prompt)
     {

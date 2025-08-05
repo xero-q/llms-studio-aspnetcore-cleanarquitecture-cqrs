@@ -6,6 +6,6 @@ public class GeminiFactory:IModelAIFactory
 {
     public IModelAI CreateModelAI(Thread thread, IConfiguration config)
     {
-        return new ModelGeminiAI(thread, config);
+        return new ModelGeminiAI(thread);
     }
 }

@@ -9,7 +9,7 @@ using Thread = Domain.Threads.Thread;
 
 namespace Application.AIModelsFactory;
 
-public class ModelMistralAI(Thread thread, IConfiguration config) : ModelAI(thread, config)
+public class ModelMistralAI(Thread thread, IConfiguration config) : ModelAI(thread)
 {
     
     private readonly string? Url = config["Models:Mistral:Url"];
