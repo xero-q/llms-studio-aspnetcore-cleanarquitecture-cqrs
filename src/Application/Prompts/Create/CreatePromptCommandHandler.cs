@@ -22,7 +22,7 @@ internal sealed class CreatePromptCommandHandler(
     {
         Thread? thread = await context.Threads.AsNoTracking().Include(t=>t.Prompts).Include(t=>t.Model).ThenInclude(m=>m.Provider).FirstOrDefaultAsync(t=>t.Id == command.ThreadId, cancellationToken);
 
-        if (thread == null)
+        if (thread is null)
         {
             return Result.Failure<PromptResponse>(ThreadErrors.NotFound(command.ThreadId));
         }
@@ -37,7 +37,7 @@ internal sealed class CreatePromptCommandHandler(
             _ => null
         };
 
-        if (modelAIFactory == null)
+        if (modelAIFactory is null)
         {
             return Result.Failure<PromptResponse>(PromptErrors.AIModelNotFound(provider));
         }

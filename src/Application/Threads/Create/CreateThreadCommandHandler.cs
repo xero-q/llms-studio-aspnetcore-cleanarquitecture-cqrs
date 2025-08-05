@@ -23,7 +23,7 @@ internal sealed class CreateThreadCommandHandler(
             .SingleOrDefaultAsync(cancellationToken);
         
 
-        if (model == null)
+        if (model is null)
         {
             return Result.Failure<int>(ThreadErrors.NotFound(command.ModelId));
         }

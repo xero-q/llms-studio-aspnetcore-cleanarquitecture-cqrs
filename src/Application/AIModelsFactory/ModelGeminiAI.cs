@@ -19,7 +19,7 @@ public class ModelGeminiAI(Thread thread, IConfiguration config) : ModelAI(threa
 
         string? apiKey = Environment.GetEnvironmentVariable(apiKeyName);
 
-        if (apiKey == null)
+        if (apiKey is null)
         {
             return null;
         }

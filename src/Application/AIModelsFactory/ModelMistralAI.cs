@@ -22,7 +22,7 @@ public class ModelMistralAI(Thread thread, IConfiguration config) : ModelAI(thre
 
         string? apiKey = Environment.GetEnvironmentVariable(apiKeyName);
 
-        if (apiKey == null)
+        if (apiKey is null)
         {
             return null;
         }

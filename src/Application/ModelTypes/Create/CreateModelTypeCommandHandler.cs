@@ -15,7 +15,7 @@ internal sealed class CreateModelTypeCommandHandler(
     {
         ModelType? modelTypeFound = await context.ModelTypes.AsNoTracking().SingleOrDefaultAsync(m => EF.Functions.ILike(m.Name,command.Name), cancellationToken);
 
-        if (modelTypeFound != null)
+        if (modelTypeFound is not null)
         {
             return Result.Failure<ModelTypeResponse>(ModelTypeErrors.ModelTypeAlreadyExists(modelTypeFound.Name)); 
         }

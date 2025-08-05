@@ -17,7 +17,7 @@ public class ModelDeepSeekAI(Thread thread, IConfiguration config) : ModelAI(thr
 
         string? apiKey = Environment.GetEnvironmentVariable(apiKeyName);
 
-        if (apiKey == null)
+        if (apiKey is null)
         {
             return null;
         }

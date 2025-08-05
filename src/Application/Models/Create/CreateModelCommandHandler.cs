@@ -19,7 +19,7 @@ internal sealed class CreateModelCommandHandler(
             .SingleOrDefaultAsync(cancellationToken);
         
 
-        if (modelType == null)
+        if (modelType is null)
         {
             return Result.Failure<int>(ModelTypeErrors.NotFound(command.ModelTypeId));
         }
@@ -28,14 +28,14 @@ internal sealed class CreateModelCommandHandler(
         
         modelFound = await context.Models.SingleOrDefaultAsync(m => EF.Functions.ILike(m.Identifier,command.Identifier), cancellationToken);
 
-        if (modelFound != null)
+        if (modelFound is not null)
         {
             return Result.Failure<int>(ModelErrors.IdentifierAlreadyExists(modelFound.Identifier)); 
         }
         
         modelFound = await context.Models.SingleOrDefaultAsync(m => EF.Functions.ILike(m.EnvironmentVariable,command.EnvironmentVariable),cancellationToken);
 
-        if (modelFound != null)
+        if (modelFound is not null)
         {
             return Result.Failure<int>(ModelErrors.EnvironmentVariableAlreadyExists(modelFound.EnvironmentVariable)); 
         }
